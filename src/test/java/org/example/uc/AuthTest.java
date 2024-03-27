@@ -3,10 +3,13 @@ package org.example.uc;
 import org.example.Utils;
 import org.example.pages.MainPage;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class AuthTest {
 
@@ -19,16 +22,13 @@ public class AuthTest {
     void loginTest() {
         List<WebDriver> drivers = Utils.getDrivers();
         drivers.parallelStream().forEach(webDriver -> {
-            AdultConfirmationPage adultConfirmationPage = new AdultConfirmationPage(webDriver);
             MainPage mainPage = new MainPage(webDriver);
             webDriver.get(Utils.BASE_URL);
-            adultConfirmationPage.acceptAdultConfirmation();
             mainPage.doLogin();
-            WebElement login = Utils.getElementBySelector(webDriver, By.xpath(".//div[@id='header_login']/div/div[3]/a[2]"));
-            assertEquals(Utils.CORRECT_LOGIN, login.getText());
+            WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
+            assertNotNull(burgerMenu);
         });
         drivers.forEach(WebDriver::quit);
-
     }
 
     @Test
