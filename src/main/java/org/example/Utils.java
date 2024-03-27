@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Utils {
 
@@ -81,6 +82,15 @@ public class Utils {
     public static void waitUntilPageLoads(WebDriver driver, long timeout) {
         WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         waitDriver.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
+
+    public static boolean isElementPresent(WebDriver driver, By by) {
+        try {
+            WebElement element = driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
 }
