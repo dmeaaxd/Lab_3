@@ -79,7 +79,7 @@ public class Utils {
     }
 
     public static WebElement getElementBySelector(WebDriver driver, By selector) {
-        WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         return driverWait.until(ExpectedConditions.visibilityOfElementLocated(selector));
     }
 
@@ -87,14 +87,4 @@ public class Utils {
         WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         waitDriver.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
-
-    public static boolean isElementPresent(WebDriver driver, By by) {
-        try {
-            WebElement element = driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
 }

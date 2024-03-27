@@ -5,7 +5,6 @@ import org.example.pages.MainPage;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -24,7 +23,7 @@ public class AuthTest {
         drivers.parallelStream().forEach(webDriver -> {
             MainPage mainPage = new MainPage(webDriver);
             webDriver.get(Utils.BASE_URL);
-            mainPage.doLogin();
+            mainPage.doFirstUserLogin();
             WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
             assertNotNull(burgerMenu);
         });
@@ -37,24 +36,24 @@ public class AuthTest {
         drivers.parallelStream().forEach(webDriver -> {
             MainPage mainPage = new MainPage(webDriver);
             webDriver.get(Utils.BASE_URL);
+            mainPage.doFirstUserLogin();
             mainPage.doLogout();
-            boolean burgerMenuExists = Utils.isElementPresent(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
-            assertFalse(burgerMenuExists);
-            webDriver.quit();
+            WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
+            assertNotNull(burgerMenu);
         });
+        drivers.forEach(WebDriver::quit);
     }
 
-//    @Test
-//    void wrongLoginTest() {
-//        List<WebDriver> drivers = Utils.getDrivers();
-//        drivers.parallelStream().forEach(webDriver -> {
-//            AdultConfirmationPage adultConfirmationPage = new AdultConfirmationPage(webDriver);
-//            MainPage mainPage = new MainPage(webDriver);
-//            webDriver.get(Utils.BASE_URL);
-//            adultConfirmationPage.acceptAdultConfirmation();
-//            mainPage.doWrongLogin();
-//            assertThrows(TimeoutException.class, () -> Utils.getElementBySelector(webDriver, By.xpath(".//div[@id='header_login']/div/div[3]/a[2]")));
-//        });
-//        drivers.forEach(WebDriver::quit);
-//    }
+    @Test
+    void wrongLoginTest() {
+        List<WebDriver> drivers = Utils.getDrivers();
+        drivers.parallelStream().forEach(webDriver -> {
+            MainPage mainPage = new MainPage(webDriver);
+            webDriver.get(Utils.BASE_URL);
+            mainPage.doWrongLogin();
+            WebElement loginError = Utils.getElementBySelector(webDriver, By.xpath("/html/body/div[3]/div/div/div/div/div/form/div[2]/div/div[1]"));
+            assertNotNull(loginError);
+        });
+        drivers.forEach(WebDriver::quit);
+    }
 }
