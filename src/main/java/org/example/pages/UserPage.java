@@ -15,6 +15,9 @@ public class UserPage extends Page {
         String buttonText = addFriendButton.getText();
         if (buttonText.contains("Дружить")) {
             addFriendButton.click();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored){}
         } else {
             throw new IllegalStateException("Невозможно добавить друга, кнопка \\\"Дружить\\\" отсутсвует");
         }
@@ -26,6 +29,9 @@ public class UserPage extends Page {
         String buttonText = deleteFriendButton.getText();
         if (buttonText.contains("Не дружить") || buttonText.contains("Отменить")) {
             deleteFriendButton.click();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored){}
         } else {
             throw new IllegalStateException("Невозможно удалить друга, кнопка \\\"Не дружить\\\" отсутсвует");
         }
@@ -39,5 +45,8 @@ public class UserPage extends Page {
         postInput.sendKeys(message);
         WebElement sendButton = Utils.getElementBySelector(driver, By.xpath("/html/body/div[3]/div/div/div/div/div[3]/div/button"));
         sendButton.click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ignored){};
     }
 }

@@ -34,5 +34,8 @@ public class MyFriendsPage extends Page {
         incomingRequestsButton.click();
         WebElement confirmRequestButton = Utils.getElementBySelector(driver, By.xpath("//*[@id=\"content-column\"]/div/div[2]/div[1]/div/div/div/button"));
         confirmRequestButton.click();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ignored){};
     }
 }

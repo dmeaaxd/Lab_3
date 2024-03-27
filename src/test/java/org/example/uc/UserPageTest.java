@@ -67,7 +67,7 @@ public class UserPageTest {
             Utils.waitUntilPageLoads(webDriver,10);
             try {
                 userPage.addFriend();
-                WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button/text()"));
+                WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button"));
                 String buttonText = addFriendButton.getText();
                 assertTrue(buttonText.contains("Отменить"));
             } catch (IllegalStateException ignored){}

@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainPage extends Page {
 
     public MainPage(WebDriver driver) {
@@ -45,5 +47,9 @@ public class MainPage extends Page {
         loginInput.sendKeys(login);
         loginPassword.sendKeys(password);
         authButton.click();
+        try{
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException ignored){}
     }
 }
