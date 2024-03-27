@@ -24,7 +24,7 @@ public class AuthTest {
         drivers.parallelStream().forEach(webDriver -> {
             MainPage mainPage = new MainPage(webDriver);
             webDriver.get(Utils.BASE_URL);
-            mainPage.doLogin();
+            mainPage.doFirstUserLogin();
             WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
             assertNotNull(burgerMenu);
         });
@@ -39,7 +39,7 @@ public class AuthTest {
             MainPage mainPage = new MainPage(webDriver);
             webDriver.get(Utils.BASE_URL);
             adultConfirmationPage.acceptAdultConfirmation();
-            mainPage.doLogin();
+            mainPage.doFirstUserLogin();
             Utils.waitUntilPageLoads(webDriver, 10);
             mainPage.doLogout();
             Utils.waitUntilPageLoads(webDriver, 10);

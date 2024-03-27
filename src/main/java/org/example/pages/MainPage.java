@@ -11,12 +11,16 @@ public class MainPage extends Page {
         super(driver);
     }
 
-    public void doLogin() {
-        tryLogin(Utils.CORRECT_LOGIN, Utils.CORRECT_PASSWORD);
+    public void doFirstUserLogin() {
+        tryLogin(Utils.CORRECT_FIRST_USER_LOGIN, Utils.CORRECT_FIRST_USER_PASSWORD);
+    }
+
+    public void doSecondUserLogin() {
+        tryLogin(Utils.CORRECT_SECOND_USER_LOGIN, Utils.CORRECT_SECOND_USER_PASSWORD);
     }
 
     public void doWrongLogin() {
-        tryLogin(Utils.CORRECT_LOGIN, Utils.WRONG_PASSWORD);
+        tryLogin(Utils.CORRECT_FIRST_USER_LOGIN, Utils.WRONG_FIRST_USER_PASSWORD);
     }
 
     public void doLogout() {

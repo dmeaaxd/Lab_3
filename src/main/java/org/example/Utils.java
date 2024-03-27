@@ -25,10 +25,14 @@ public class Utils {
     public static final String FIREFOX_SYSTEM_PROPERTY_NAME = "webdriver.gecko.driver";
     public static final String FIREFOX_SYSTEM_PROPERTY_PATH = "drivers/geckodriver";
     public static final String BASE_URL = "https://mirtesen.ru/";
+    public static final String FIRST_USER_URL = "https://mirtesen.ru/people/914760988";
+    public static final String SECOND_USER_URL = "https://mirtesen.ru/people/68403438";
 
-    public static final String CORRECT_LOGIN = dotenv.get("LOGIN");
-    public static final String CORRECT_PASSWORD = dotenv.get("PASSWORD");
-    public static final String WRONG_PASSWORD = "wrong_password";
+    public static final String CORRECT_FIRST_USER_LOGIN = dotenv.get("DANS_LOGIN");
+    public static final String CORRECT_FIRST_USER_PASSWORD = dotenv.get("DANS_PASSWORD");
+    public static final String CORRECT_SECOND_USER_LOGIN = dotenv.get("MAXES_LOGIN");
+    public static final String CORRECT_SECOND_USER_PASSWORD = dotenv.get("MAXES_PASSWORD");
+    public static final String WRONG_FIRST_USER_PASSWORD = "wrong_password";
 
     public static List<WebDriver> getDrivers() {
         List<WebDriver> drivers = new ArrayList<>();
