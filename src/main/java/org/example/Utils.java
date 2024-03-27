@@ -16,17 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
+    static Dotenv dotenv = Dotenv.configure().load();
+
     public static final String CHROME_SYSTEM_PROPERTY_NAME = "webdriver.chrome.driver";
-    public static final String CHROME_SYSTEM_PROPERTY_PATH = "drivers/chromedriver.exe";
+    public static final String CHROME_SYSTEM_PROPERTY_PATH = dotenv.get("CHROME_SYSTEM_PROPERTY_PATH");
     public static final String FIREFOX_SYSTEM_PROPERTY_NAME = "webdriver.gecko.driver";
     public static final String FIREFOX_SYSTEM_PROPERTY_PATH = "drivers/geckodriver";
     public static final String BASE_URL = "https://mirtesen.ru/";
 
-    static Dotenv dotenv = Dotenv.configure().load();
-
     public static final String CORRECT_LOGIN = dotenv.get("LOGIN");
     public static final String CORRECT_PASSWORD = dotenv.get("PASSWORD");
-    public static final String WRONG_PASSWORD = "***_wrong";
+    public static final String WRONG_PASSWORD = "wrong_password";
 
     public static List<WebDriver> getDrivers() {
         List<WebDriver> drivers = new ArrayList<>();
