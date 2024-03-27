@@ -24,7 +24,7 @@ public class Utils {
     public static final String CHROME_SYSTEM_PROPERTY_NAME = "webdriver.chrome.driver";
     public static final String CHROME_SYSTEM_PROPERTY_PATH = dotenv.get("CHROME_SYSTEM_PROPERTY_PATH");
     public static final String FIREFOX_SYSTEM_PROPERTY_NAME = "webdriver.gecko.driver";
-    public static final String FIREFOX_SYSTEM_PROPERTY_PATH = "drivers/geckodriver";
+    public static final String FIREFOX_SYSTEM_PROPERTY_PATH = dotenv.get("FIREFOX_SYSTEM_PROPERTY_PATH");
     public static final String BASE_URL = "https://mirtesen.ru/";
     public static final String FIRST_USER_URL = "https://mirtesen.ru/people/914760988";
     public static final String SECOND_USER_URL = "https://mirtesen.ru/people/68403438";
