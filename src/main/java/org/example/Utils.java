@@ -1,5 +1,6 @@
 package org.example;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,8 +17,10 @@ public class Utils {
     public static final String FIREFOX_SYSTEM_PROPERTY_PATH = "drivers/geckodriver";
     public static final String BASE_URL = "https://mirtesen.ru/";
 
-    public static final String CORRECT_LOGIN = "***";
-    public static final String CORRECT_PASSWORD = "***";
+    static Dotenv dotenv = Dotenv.configure().load();
+
+    public static final String CORRECT_LOGIN = dotenv.get("LOGIN");
+    public static final String CORRECT_PASSWORD = dotenv.get("PASSWORD");
     public static final String WRONG_PASSWORD = "***_wrong";
 
     public static List<WebDriver> getDrivers() {
