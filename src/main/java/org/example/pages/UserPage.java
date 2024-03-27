@@ -16,7 +16,7 @@ public class UserPage extends Page {
         if (buttonText.contains("Не дружить")) {
             addFriendButton.click();
         } else {
-            throw new IllegalStateException("Кнопка не содержит текст 'Не дружить'.");
+            throw new IllegalStateException("Невозможно добавить друга, кнопка \\\"Дружить\\\" отсутсвует");
         }
 
     }
@@ -27,7 +27,7 @@ public class UserPage extends Page {
         if (buttonText.contains("Не дружить")) {
             deleteFriendButton.click();
         } else {
-            throw new IllegalStateException("Кнопка не содержит текст 'Не дружить'.");
+            throw new IllegalStateException("Невозможно удалить друга, кнопка \\\"Не дружить\\\" отсутсвует");
         }
     }
 
