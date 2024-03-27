@@ -1,9 +1,14 @@
 package org.example;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,22 +49,36 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        throw new RuntimeException("Web driver is not specified");
+        throw new RuntimeException("Веб-драйвер не указан");
     }
 
     private static ChromeDriver getChromeDriver() {
         if (!System.getProperties().containsKey(CHROME_SYSTEM_PROPERTY_NAME)) {
-            throw new RuntimeException("Chrome driver not set properly");
+            throw new RuntimeException("Драйвер Chrome установлен неправильно");
         }
         return new ChromeDriver();
     }
 
     private static FirefoxDriver getFirefoxDriver() {
         if (!System.getProperties().containsKey(FIREFOX_SYSTEM_PROPERTY_NAME)) {
-            throw new RuntimeException("Firefox driver not set properly");
+            throw new RuntimeException("Драйвер Firefox установлен неправильно");
         }
         return new FirefoxDriver();
     }
 
+    public static void prepareDrivers() {
+        System.setProperty(CHROME_SYSTEM_PROPERTY_NAME, CHROME_SYSTEM_PROPERTY_PATH);
+        System.setProperty(FIREFOX_SYSTEM_PROPERTY_NAME, FIREFOX_SYSTEM_PROPERTY_PATH);
+    }
+
+    public static WebElement getElementBySelector(WebDriver driver, By selector) {
+        WebDriverWait driverWait = new WebDriverWait(driver, 10);
+        return driverWait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+    }
+
+    public static void waitUntilPageLoads(WebDriver driver, long timeout) {
+        WebDriverWait waitDriver = new WebDriverWait(driver, timeout);
+        waitDriver.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
 
 }
