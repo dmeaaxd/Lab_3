@@ -3,10 +3,9 @@ package org.example.pages;
 import org.example.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.WebElement;
 
-public class MainPage extends Page{
+public class MainPage extends Page {
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -26,7 +25,7 @@ public class MainPage extends Page{
         WebElement logoutButton = Utils.getElementBySelector(driver, By.xpath(""));
         logoutButton.click();
         WebElement confirmationLogoutButton = Utils.getElementBySelector(driver, By.xpath(""));
-        logoutButton.click();
+        confirmationLogoutButton.click();
     }
 
     private void tryLogin(CharSequence login, CharSequence password) {
