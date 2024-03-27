@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,12 +74,12 @@ public class Utils {
     }
 
     public static WebElement getElementBySelector(WebDriver driver, By selector) {
-        WebDriverWait driverWait = new WebDriverWait(driver, 10);
+        WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(2));
         return driverWait.until(ExpectedConditions.visibilityOfElementLocated(selector));
     }
 
     public static void waitUntilPageLoads(WebDriver driver, long timeout) {
-        WebDriverWait waitDriver = new WebDriverWait(driver, timeout);
+        WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         waitDriver.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
