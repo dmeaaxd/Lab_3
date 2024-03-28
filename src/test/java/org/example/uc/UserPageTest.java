@@ -55,6 +55,26 @@ public class UserPageTest {
         drivers.forEach(WebDriver::quit);
     }
 
+    @Test
+    void writeOnBoard() {
+        sendFriendRequest();
+        confirmFriendRequest();
+        List<WebDriver> drivers = Utils.getDrivers();
+        drivers.parallelStream().forEach(webDriver -> {
+            MainPage mainPage = new MainPage(webDriver);
+            webDriver.get(Utils.BASE_URL);
+            mainPage.doFirstUserLogin();
+            UserPage userPage = new UserPage(webDriver);
+            webDriver.get(Utils.SECOND_USER_URL);
+            String message = generateString();
+            userPage.writePost(message);
+            WebElement lastPost = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div/div[1]/div[2]/article/div[2]/div/div/div/div"));
+            String lastPostText = lastPost.getText();
+            assertEquals(message, lastPostText);
+        });
+        drivers.forEach(WebDriver::quit);
+    }
+
     void sendFriendRequest() {
         List<WebDriver> drivers = Utils.getDrivers();
         drivers.parallelStream().forEach(webDriver -> {
@@ -116,23 +136,4 @@ public class UserPageTest {
         return stringBuilder.toString();
     }
 
-    @Test
-    void writeOnBoard() {
-        sendFriendRequest();
-        confirmFriendRequest();
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doFirstUserLogin();
-            UserPage userPage = new UserPage(webDriver);
-            webDriver.get(Utils.SECOND_USER_URL);
-            String message = generateString();
-            userPage.writePost(message);
-            WebElement lastPost = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div/div[1]/div[2]/article/div[2]/div/div/div/div"));
-            String lastPostText = lastPost.getText();
-            assertEquals(message, lastPostText);
-        });
-        drivers.forEach(WebDriver::quit);
-    }
 }
