@@ -42,7 +42,8 @@ public class UserPage extends Page {
         postButton.click();
         WebElement postInput = Utils.getElementBySelector(driver, By.xpath("/html/body/div[3]/div/div/div/div/div[2]/div[1]/div/div/div/div/div[1]"));
         postInput.clear();
-        postInput.sendKeys(message);
+        postInput.click();
+        for (int i = 0; i < message.length(); i++) postInput.sendKeys(String.valueOf(message.charAt(i)));
         WebElement sendButton = Utils.getElementBySelector(driver, By.xpath("/html/body/div[3]/div/div/div/div/div[3]/div/button"));
         sendButton.click();
         try {

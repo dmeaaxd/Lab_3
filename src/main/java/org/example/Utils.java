@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class Utils {
 
@@ -35,21 +34,17 @@ public class Utils {
     public static final String CORRECT_SECOND_USER_PASSWORD = dotenv.get("MAXES_PASSWORD");
     public static final String WRONG_FIRST_USER_PASSWORD = "wrong_password";
 
-    public static List<WebDriver> getDrivers() {
-        List<WebDriver> drivers = new ArrayList<>();
+    public static WebDriver getDriver() {
+        WebDriver driver;
         try {
             List<String> properties = Files.readAllLines(Paths.get("mirtesen.properties"));
             for (String property : properties) {
                 if (property.startsWith("WEB_DRIVER")) {
                     switch (property.toLowerCase().split("=")[1]) {
                         case "chrome":
-                            drivers.add(getChromeDriver()); return drivers;
+                            driver = getChromeDriver(); return driver;
                         case "firefox":
-                            drivers.add(getFirefoxDriver()); return drivers;
-                        case "both":
-                            drivers.add(getChromeDriver());
-                            drivers.add(getFirefoxDriver());
-                            return drivers;
+                            driver = getFirefoxDriver(); return driver;
                     }
                 }
             }

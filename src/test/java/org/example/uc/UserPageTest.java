@@ -16,102 +16,106 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserPageTest {
     @BeforeAll
-    public static void init() {
+    public static void prepareDrivers() {
         Utils.prepareDrivers();
+    }
 
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doFirstUserLogin();
-            WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
-            assertNotNull(burgerMenu);
+    private void deleteFriend() {
+        WebDriver webDriver = Utils.getDriver();
 
-            UserPage userPage = new UserPage(webDriver);
-            webDriver.get(Utils.SECOND_USER_URL);
+        MainPage mainPage = new MainPage(webDriver);
+        webDriver.get(Utils.BASE_URL);
+        mainPage.doFirstUserLogin();
+        WebElement burgerMenu = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
+        assertNotNull(burgerMenu);
 
-            try {
-                userPage.deleteFriend();
-            } catch (Exception ignored) {
-            }
-        });
-        drivers.forEach(WebDriver::quit);
+        UserPage userPage = new UserPage(webDriver);
+        webDriver.get(Utils.SECOND_USER_URL);
+
+        try {
+            userPage.deleteFriend();
+        } catch (Exception ignored) {
+        }
+        webDriver.quit();
     }
 
     @Test
     void sendFriendRequestTest() {
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doFirstUserLogin();
-            UserPage userPage = new UserPage(webDriver);
-            webDriver.get(Utils.SECOND_USER_URL);
-            userPage.addFriend();
-            WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button"));
-            String buttonText = addFriendButton.getText();
-            assertTrue(buttonText.contains("Отменить"));
-        });
-        drivers.forEach(WebDriver::quit);
+        WebDriver webDriver = Utils.getDriver();
+        deleteFriend();
+
+        MainPage mainPage = new MainPage(webDriver);
+        webDriver.get(Utils.BASE_URL);
+        mainPage.doFirstUserLogin();
+        UserPage userPage = new UserPage(webDriver);
+        webDriver.get(Utils.SECOND_USER_URL);
+        userPage.addFriend();
+        WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button"));
+        String buttonText = addFriendButton.getText();
+        assertTrue(buttonText.contains("Отменить"));
+
+        webDriver.quit();
     }
 
     @Test
     void writeOnBoard() {
         sendFriendRequest();
         confirmFriendRequest();
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doFirstUserLogin();
-            UserPage userPage = new UserPage(webDriver);
-            webDriver.get(Utils.SECOND_USER_URL);
-            String message = generateString();
-            userPage.writePost(message);
-            WebElement lastPost = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div/div[1]/div[2]/article/div[2]/div/div/div/div"));
-            String lastPostText = lastPost.getText();
-            assertEquals(message, lastPostText);
-        });
-        drivers.forEach(WebDriver::quit);
+
+        WebDriver webDriver = Utils.getDriver();
+
+        MainPage mainPage = new MainPage(webDriver);
+        webDriver.get(Utils.BASE_URL);
+        mainPage.doFirstUserLogin();
+        UserPage userPage = new UserPage(webDriver);
+        webDriver.get(Utils.SECOND_USER_URL);
+        String message = generateString();
+        userPage.writePost(message);
+        WebElement lastPost = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div/div[1]/div[2]/article/div[2]/div/div/div/div"));
+        String lastPostText = lastPost.getText();
+        assertEquals(message, lastPostText);
+
+        webDriver.quit();
     }
 
     void sendFriendRequest() {
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doFirstUserLogin();
-            Utils.waitUntilPageLoads(webDriver,10);
-            UserPage userPage = new UserPage(webDriver);
-            webDriver.get(Utils.SECOND_USER_URL);
-            Utils.waitUntilPageLoads(webDriver,10);
-            try {
-                userPage.addFriend();
-                WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button"));
-                String buttonText = addFriendButton.getText();
-                assertTrue(buttonText.contains("Отменить"));
-            } catch (IllegalStateException ignored){}
-        });
-        drivers.forEach(WebDriver::quit);
+        WebDriver webDriver = Utils.getDriver();
+
+        MainPage mainPage = new MainPage(webDriver);
+        webDriver.get(Utils.BASE_URL);
+        mainPage.doFirstUserLogin();
+        Utils.waitUntilPageLoads(webDriver, 10);
+        UserPage userPage = new UserPage(webDriver);
+        webDriver.get(Utils.SECOND_USER_URL);
+        Utils.waitUntilPageLoads(webDriver, 10);
+        try {
+            userPage.addFriend();
+            WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"secondary-header\"]/div/div[3]/button"));
+            String buttonText = addFriendButton.getText();
+            assertTrue(buttonText.contains("Отменить"));
+        } catch (IllegalStateException ignored) {
+        }
+
+        webDriver.quit();
     }
 
     void confirmFriendRequest() {
-        List<WebDriver> drivers = Utils.getDrivers();
-        drivers.parallelStream().forEach(webDriver -> {
-            MainPage mainPage = new MainPage(webDriver);
-            webDriver.get(Utils.BASE_URL);
-            mainPage.doSecondUserLogin();
-            WebElement burgerMenuButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
-            burgerMenuButton.click();
-            WebElement myFriendsButton = Utils.getElementBySelector(webDriver, By.xpath("/html/body/div[3]/div/div/div/a[7]"));
-            myFriendsButton.click();
-            MyFriendsPage myFriendsPage = new MyFriendsPage(webDriver);
-            myFriendsPage.confirmAddFriend();
-            WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div[2]/div[1]/div/div/div/button"));
-            String buttonText = addFriendButton.getText();
-            assertTrue(buttonText.contains("Не дружить"));
-        });
-        drivers.forEach(WebDriver::quit);
+        WebDriver webDriver = Utils.getDriver();
+
+        MainPage mainPage = new MainPage(webDriver);
+        webDriver.get(Utils.BASE_URL);
+        mainPage.doSecondUserLogin();
+        WebElement burgerMenuButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"header-profile-tooltip\"]/button"));
+        burgerMenuButton.click();
+        WebElement myFriendsButton = Utils.getElementBySelector(webDriver, By.xpath("/html/body/div[3]/div/div/div/a[7]"));
+        myFriendsButton.click();
+        MyFriendsPage myFriendsPage = new MyFriendsPage(webDriver);
+        myFriendsPage.confirmAddFriend();
+        WebElement addFriendButton = Utils.getElementBySelector(webDriver, By.xpath("//*[@id=\"content-column\"]/div/div[2]/div[1]/div/div/div/button"));
+        String buttonText = addFriendButton.getText();
+        assertTrue(buttonText.contains("Не дружить"));
+
+        webDriver.quit();
     }
 
     public static String generateString() {

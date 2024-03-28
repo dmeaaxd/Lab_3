@@ -15,7 +15,7 @@ public class SeleniumTest {
 
     @Test
     void testDriver() {
-        Utils.getDrivers().forEach(this::executeWithCapabilities);
+        executeWithCapabilities(Utils.getDriver());
     }
 
     private void executeWithCapabilities(WebDriver driver) {

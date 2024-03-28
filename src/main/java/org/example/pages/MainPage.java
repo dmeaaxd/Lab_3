@@ -32,6 +32,10 @@ public class MainPage extends Page {
         logoutButton.click();
         WebElement confirmLogoutButton = Utils.getElementBySelector(driver, By.xpath("/html/body/div[3]/div/div/div/div/button"));
         confirmLogoutButton.click();
+        try{
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException ignored){}
     }
 
     private void tryLogin(CharSequence login, CharSequence password) {
